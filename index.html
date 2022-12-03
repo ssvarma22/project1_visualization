@@ -1,0 +1,823 @@
+<html>
+<head>
+	<title>Project</title> 
+                     
+	 <script src =
+        "https://d3js.org/d3.v4.min.js">
+
+	
+    </script> 
+    
+	<style>
+		rect {
+			fill:  steelblue;
+		}
+		body {
+			font-family:  sans-serif;
+			font-size: 15px;
+		}
+		circle {
+			fill: #32a4a8;
+		}
+	</style>
+</head>
+
+<body>
+     <h2 style="text-align: center;"><br>Project 1: Dr. John Snow's Cholera Map(1854)</h2>
+     <span style="margin-left: 275px;margin-row: 100px" >
+     <a href="Design Documentation.html">Design
+            Documentation</a></span>
+    
+          
+    <br><span style="margin-left: 275px" >
+    <a href="https://youtu.be/Ivq2I9jgub4">Visualization Video</a>
+</span>
+    
+	<svg id="main" width="1400" height="1200">
+
+		
+		<g id = "rectangle" transform="translate(0,0)"></g>
+        <g id = "map" transform="translate(0,0)"></g>
+         <g id = "abc" transform="translate(830,430)"></g>
+      <g id = "gbc" transform="translate(1080,430)"></g>
+        
+      <g id = "lc" transform="translate(790,200)">
+        
+      </g>
+                
+	</svg>   
+<script>
+//Map
+var svg = d3.select("#map")
+  .append("g")
+    .attr("width",  1000)
+    .attr("height",  1000)
+    
+    .call(d3.zoom().on("zoom", function () {
+       d3.select("#map").attr("transform", d3.event.transform)
+    }));
+
+
+    d3.json("streets.json", function (d) {
+        
+                
+        var linegen = d3.line()
+            .x(function (d) { return  850- d.x * 30; })
+            .y(function (d) { return 800- d.y * 30; }) .curve(d3.curveLinear);
+       
+        for (var i = 0; i < d.length; i++){
+            var line = d[i];
+
+         svg.append('path')
+                .style('fill', 'none')
+                .style('stroke', '#080606')
+                .style('stroke-width', '1px')
+                .attr('d', linegen(line))
+                .attr('transform', 'translate(0,0) rotate(0)')        
+
+          svg.append("text")
+            .style("font-size", "10px")
+            .attr("x", 540)
+            .attr("y", 200)
+            .attr("transform", "rotate(10)")
+            .text("OXFORD STREET");
+        svg.append("text")
+            .style("font-size", "10px")
+            .attr("x", 100)
+            .attr("y", -780)
+            .attr("transform", "rotate(120)")
+            .text("REGENT STREET"); 
+         
+         var svg2=d3.select("#rectangle").append("svg")   
+        var colors1 = ['#ccece6' ,'#99d8c9','#66c2a4','#41ae76','#238b45','#005824'] ;
+                
+         var Agegroup= ["0-10", "11-20", "20-40", "40-60", "60-80",">80"];
+
+        var colors2 =['#d4b9da','#c994c7','#df65b0','#e7298a','#ce1256','#7a0177'];
+        svg2.append("text")
+            .style("font-size", "15px")
+            .style("font-family", "sans-serif")
+            .attr("x", 220)
+            .attr("y", 730)
+            .attr("transform", "rotate(0)")
+            .text("Map Legends:"); 
+       var circle = svg2.append("circle")
+                .attr("cx", 330)
+                .attr("cy", 725)
+                .attr("r", 5)
+                .style('fill', '#8c2d04')
+        svg2.append("text")
+            .style("font-size", "15px")
+            .style("font-family", "sans-serif")
+            .attr("x", 340)
+            .attr("y", 730)
+            .attr("transform", "rotate(0)")
+            .text("Pumps");
+         svg2.append("text")
+            .style("font-size", "15px")
+            .style("font-family", "sans-serif")
+            .attr("x", 330)
+            .attr("y", 750)
+            .attr("transform", "rotate(0)")
+            .text("Male(Age Group):"); 
+        svg2.append("text")
+            .style("font-size", "15px")
+            .style("font-family", "sans-serif")
+            .attr("x", 330)
+            .attr("y", 780)
+            .attr("transform", "rotate(0)")
+            .text("Female(Age Group):"); 
+         svg2.append("text")
+            .style("font-size", "15px")
+            .attr("x", 480)
+            .attr("y", 150)
+            .attr("transform", "rotate(o)")
+            .text("LONDON MAP");
+        svg2.append("text")
+            .style("font-size", "15px")
+            .attr("x", 275)
+            .attr("y", 200)
+            .attr("transform", " rotate(o)")
+            .text(" Zoom: Drag or Double click elements on the map");
+
+         
+                 
+         svg2.selectAll("rect").append('g')
+             .data(colors1)
+            .enter().append("rect")
+            .attr('width', '8')
+            .attr('height', '8')
+            .attr('x', function(d,i) {
+                return 460+i*50;
+            })
+            .attr('y', 745)
+            .style("fill",function(d,i) {
+                return colors1[i] ;
+
+       })
+        
+       
+        
+        svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 470+0*50;})
+            .attr("y", 755)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[0];});
+        svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 470+1*50;})
+            .attr("y", 755)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[1];})
+        svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 470+2*50;})
+            .attr("y", 755)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[2];})
+         svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 470+3*50;})
+            .attr("y", 755)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[3];})
+        svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 470+4*50;})
+            .attr("y", 755)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[4];})
+         svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 470+5*50;})
+            .attr("y", 755)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[5];})  
+
+
+         svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 480+0*50;})
+            .attr("y", 785)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[0];});
+        svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 480+1*50;})
+            .attr("y", 785)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[1];})
+        svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 480+2*50;})
+            .attr("y", 785)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[2];})
+         svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 480+3*50;})
+            .attr("y", 785)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[3];})
+        svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 480+4*50;})
+            .attr("y", 785)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[4];})
+         svg2.append("text")
+            .style("font-size", "12px")
+            .style("font-family", "sans-serif")
+            .attr("x",function(d) {
+                return 480+5*50;})
+            .attr("y", 785)
+            .attr("transform", "rotate(0)")
+            .text(function(d) {
+                return Agegroup[5];}) 
+
+         svg2.append("rect")
+            .attr('width', '8')
+            .attr('height', '8')
+            .attr('x', function(d,i) {
+                return 470+0*50;
+            })
+            .attr('y', 775)
+            .style("fill",'#d4b9da');
+        
+        svg2.append("rect")
+            .attr('width', '8')
+            .attr('height', '8')
+            .attr('x', function(d,i) {
+                return 470+1*50;
+            })
+            .attr('y', 775)
+            .style("fill",'#c994c7');
+         svg2.append("rect")
+            .attr('width', '8')
+            .attr('height', '8')
+            .attr('x', function(d,i) {
+                return 470+2*50;
+            })
+            .attr('y', 775)
+            .style("fill",'#df65b0')
+         svg2.append("rect")
+            .attr('width', '8')
+            .attr('height', '8')
+            .attr('x', function(d,i) {
+                return 470+3*50;
+            })
+            .attr('y', 775)
+            .style("fill",'#e7298a')
+         svg2.append("rect")
+            .attr('width', '8')
+            .attr('height', '8')
+            .attr('x', function(d,i) {
+                return 470+4*50;
+            })
+            .attr('y', 775)
+            .style("fill",'#ce1256')
+         svg2.append("rect")
+            .attr('width', '8')
+            .attr('height', '8')
+            .attr('x', function(d,i) {
+                return 470+5*50;
+            })
+            .attr('y', 775)
+            .style("fill",'#7a0177')
+
+        }
+
+
+
+    })
+
+  
+
+    // pumps
+    d3.csv("pumps.csv", function (data) {
+        console.log(data)
+        var pumps = d3.select('#map').append('svg');
+
+
+        svg.selectAll('circle')
+            .data(data)
+            .enter().append('circle')
+            .style('fill', '#8c2d04')
+            .attr('r', '5px')
+            .attr('cx', function(d) { return 850- d.x * 30; })
+            .attr('cy', function(d) { return 800- d.y * 30; })       
+
+                  
+
+    })
+     //victims
+     d3.csv("deathsagesex.csv", function (d) {
+        var victims = d3.select('#map').append('svg');
+
+            svg.selectAll('rect')
+                .data(d)
+                .enter().append('rect')
+                .style('fill',function(d){ if (d.gender=='0')
+
+                    { if (d.age=='0') {return "#d4b9da";}
+                     else if ( d.age=='1') {return "#c994c7"; }
+                     else if ( d.age=='2') {return "#df65b0"; } 
+                      else if ( d.age=='3') {return "#e7298a"; }
+                       else if ( d.age=='4') {return "#ce1256"; }
+                        else if ( d.age=='5') {return "#7a0177"; }
+
+
+                  }
+                    else
+                     { if (d.age=='0') {return "#ccece6";}
+                     else if ( d.age=='1') {return "#99d8c9"; }
+                     else if ( d.age=='2') {return "#66c2a4"; } 
+                      else if ( d.age=='3') {return "#41ae76"; }
+                       else if ( d.age=='4') {return "#238b45"; }
+                        else if ( d.age=='5') {return "#005824"; }
+
+                      } })
+                .attr('stroke', '#969696')
+                .attr("stroke-width","0.2px")
+                     
+                .attr('width', '8px')
+                .attr('height','8px')
+                
+                .attr('x', function(d) {return 850- d.x * 30;})
+                .attr('y', function(d) { return 800- d.y * 30; })
+    })
+
+    
+
+    function drawelements() {
+
+
+     d3.csv("deathsagesex.csv", function (d) {
+        d3.select('#map').selectAll('rect').remove();
+
+        var deathnum = [];
+
+        for(k=0;k<nums;k++){
+            deathnum.push(d[k])
+        }
+        
+        var victims1 = d3.select('#map').append('svg');
+            svg.selectAll('rect')
+            
+                .data(deathnum)
+                .enter().append('rect')
+                .style('fill',function(d){ if (d.gender=='0')
+
+                    { if (d.age=='0') {return "#d4b9da";}
+                     else if ( d.age=='1') {return "#c994c7"; }
+                     else if ( d.age=='2') {return "#df65b0"; } 
+                      else if ( d.age=='3') {return "#e7298a"; }
+                       else if ( d.age=='4') {return "#ce1256"; }
+                        else if ( d.age=='5') {return "#7a0177"; }
+
+
+                  }
+                    else
+                     { if (d.age=='0') {return "#ccece6";}
+                     else if ( d.age=='1') {return "#99d8c9"; }
+                     else if ( d.age=='2') {return "#66c2a4"; } 
+                      else if ( d.age=='3') {return "#41ae76"; }
+                       else if ( d.age=='4') {return "#238b45"; }
+                        else if ( d.age=='5') {return "#005824"; }
+
+                      } })
+                .attr('stroke', '#969696')
+                .attr("stroke-width","0.2px")
+                     
+                .attr('width', '8px')
+                .attr('height','8px')
+                
+                .attr('x', function(d) {return 850- d.x * 30;})
+                .attr('y', function(d) { return 800- d.y * 30; })
+                 .attr("class", function(d,i) { return "pt" + i; })
+                .on("mouseover", function(d, i) {
+                console.log(i);
+               d3.selectAll("rect.pt" + i)
+               .attr("fill", "black")
+               .attr('width', '8px')
+               .attr('height','8px')
+               .style("opacity", 1)
+    })
+             
+       
+
+       
+   }) 
+     
+}
+</script>
+      <script>
+//Age chart 
+
+var u =[];
+var o=[];
+d3.csv('deathsagesex.csv', function (d) 
+
+            {
+               for(i = 0; i < d.length; i++)
+              {
+        
+                 var c = d[i].age;
+                  u.push(c); }
+                  console.log(u);
+
+                   var ago= u.filter(u0Function);
+                  var ag0=ago.length;
+                  console.log(ag0);
+
+              function u0Function(value, index, array) 
+              {
+             return value < 1;
+             
+                }
+                var g1= u.filter(u1Function);
+                  var ag1=g1.length;
+                  console.log(ag1);
+
+              function u1Function(value, index, array) 
+              {
+             return value>0  & value < 2;
+             
+                }
+               
+                var g3= u.filter(u3Function);
+                  var ag3=g3.length;
+                  console.log(ag3);
+
+              function u3Function(value, index, array) 
+              {
+             return value>2  & value < 4;
+             
+                }
+                var g2= u.filter(u2Function);
+                  var ag2=g2.length;
+                  console.log(ag2);
+
+              function u2Function(value, index, array) 
+              {
+             return value>1  & value < 3
+             
+                }
+                 
+                  
+                  var g4= u.filter(u4Function);
+                  var ag4=g4.length;
+                  console.log(ag4);
+
+              function u4Function(value, index, array) 
+              {
+             return  value>3  & value < 5;
+             
+                }
+                 var g5= u.filter(u5Function);
+                  var ag5=g5.length;
+                  console.log(ag5);
+
+              function u5Function(value, index, array) 
+              {
+             return  value>4;
+             
+                }
+            var agegroup= [ag0,ag1 , ag2 , ag3, ag4, ag5];
+            console.log(agegroup)
+           
+            
+        var svg = d3.select("#abc")
+              .append("svg")
+             var bwidth = 30;
+            var bheight = 400;
+            var margin = {left:50,right:50,top:40,bottom:0};
+            var x = d3.scaleBand()
+    .domain(["0-10", "11-20", "20-40", "40-60", "60-80",">80"])    
+    .range([0, 190]) ; 
+   
+    svg.selectAll("rect")
+    .data(agegroup)
+    .enter().append("rect")
+    .attr('width', bwidth)
+            .attr('height', function(d){
+                return d;
+            })
+            .attr('x', function(d,i) {
+                return 45+i *(bwidth+2);
+            })
+            .attr('y', function(d){
+                return bheight-d;
+                
+
+             })
+            .style("fill","#3255a8")
+        
+            .on("mouseover", function() { this.style.fill="purple";})
+            .on("mouseout", function() {this.style.fill ="#3255a8";}) 
+    var agenum = svg.selectAll(".myTexts")
+    .data(agegroup)
+    .enter()
+    .append("text");
+
+agenum.attr("x", function(d,i){ return 50+i*(bwidth+2);})
+    .attr("y", function(d){ return bheight-d;})
+    .text(function(d){ return d});
+
+            
+  svg.append("g")
+  .attr("transform", "translate(45,400)")     
+  .call(d3.axisBottom(x));
+
+var y = d3.scaleLinear()
+    .domain([0, 250])         
+    .range([300, 0]);         
+
+// Draw the axis
+svg
+  .append("g")
+  .attr("transform", "translate(45,100)")     
+  .call(d3.axisLeft(y));
+    
+
+    svg.append("text")
+
+    .attr("text-anchor", "end")
+    .attr("x","145" )
+    .attr("y",440)
+    .text("Age Group");
+
+// Y axis label:
+svg.append("text")
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-90)")
+    .attr("y",12)
+    .attr("x",-200 )
+    .text("Number of Deaths")
+svg.append("text")
+            .style("font-size", "15px")
+            .attr("x", 50)
+            .attr("y", 85)
+            .text("Bar Charts for Age Group and Gender");
+
+
+ })
+                
+               
+            // Gender chart        
+            d3.csv('deathsagesex.csv', function (d) 
+
+            {
+            
+              for(i = 0; i < d.length; i++)
+              {
+        
+                 var a=d[i].gender;
+                        
+                    o.push(a);
+                }
+
+                  var male= o.filter(mFunction);
+                  var males=male.length;
+                  console.log(males);
+
+              function mFunction(value, index, array) 
+              {
+             return value < 1;
+             
+                }
+         console.log(male); 
+          var female= o.filter(fFunction); 
+          function fFunction(value, index, array) 
+              {
+             return value > 0;
+             
+                } 
+                var fe=female.length;
+                console.log (fe);
+
+                gendernum=[];
+                gendernum.push(males);
+                gendernum.push(fe);
+                console.log(gendernum);
+
+            
+             var bwidth = 30;
+            var bheight = 400;
+            
+            var svg = d3.select("#gbc")
+              .append("svg")
+            svg.selectAll('rect')
+            .data(gendernum)
+            .enter().append('rect')
+            .attr('width', bwidth)
+            .attr('height', function(d){
+                return d;
+            })
+            .attr('x', function(d,i) {
+                return 60+i* (bwidth+2);
+            })
+            .attr('y', function(d){
+                return bheight-d;
+                
+
+             })
+             .style("fill","#3255a8")
+            .on("mouseover", function() { this.style.fill="purple";})
+            .on("mouseout", function() {this.style.fill ="#3255a8";}) 
+        var gendernum1 = svg.selectAll(".myTexts")
+    .data(gendernum)
+    .enter()
+    .append("text");
+
+gendernum1.attr("x", function(d,i){ return 60+i*(bwidth+2);})
+    .attr("y", function(d){ return bheight-d;})
+    .text(function(d){ return d});
+           
+            
+            
+      var x = d3.scaleBand()
+    .domain(["Male", "Female"])     
+    .range([0,100]) ; 
+    
+
+    svg.append("g")
+  .attr("transform", "translate(45,400)")     
+  .call(d3.axisBottom(x));
+  
+  var y = d3.scaleLinear()
+    .domain([0, 250])         
+    .range([300, 0]);         
+
+// Draw the axis
+svg
+  .append("g")
+  .attr("transform", "translate(45,100)")      
+  .call(d3.axisLeft(y));
+  svg.append("text")
+
+    .attr("text-anchor", "end")
+    .attr("x",100 )
+    .attr("y",440)
+    .text("Gender");
+
+// Y axis label:
+svg.append("text")
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-90)")
+    .attr("y",12)
+    .attr("x",-200 )
+    .text("Number of Deaths")
+
+
+})
+</script>
+<script>
+ //Line chart   
+var margin = { top: 10, right: 40, bottom: 40, left: 40 },
+    width = 560 - margin.left - margin.right,
+    height =280 - margin.top - margin.bottom;
+
+
+var svg1 = d3.select("#lc")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform",
+        "translate(" + margin.left + "," + margin.top + ")");
+  var nums=0;
+
+d3.csv("deathdays.csv",function (d) {
+        return { date: d3.timeParse("%e-%b")(d.date), value: d.deaths }
+    },
+
+    function (data) {
+
+        var format = d3.timeFormat("%e-%b");
+
+        var x = d3.scaleTime()
+            .domain(d3.extent(data, function (d) { return d.date; }))
+            .range([0, width]);
+        svg1.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b-%e")));
+
+        var y = d3.scaleLinear()
+            .domain([0,160])
+            .range([height, 0]);
+        svg1.append("g")
+            .call(d3.axisLeft(y));
+
+        svg1.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "#7570b3")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(function (d) { return x(d.date) })
+                .y(function (d) { return y(+d.value) })
+            )
+          svg1.append("g")
+             .selectAll("circle")
+             .data(data)
+             .enter()
+             .append("circle")
+             .attr("cx", function (d) { return x(d.date); } )
+             .attr("cy", function (d) { return y(+d.value); } )
+              .attr("class", function(d,i) { return "pt" + i; })
+              .attr('index' ,function(d,i){ 
+                 console.log(i);
+                return i;})
+             .attr("r", 5.0)
+            .style("fill", "#69b3a2")
+             .on("mouseover", function(d, i) {
+          d3.selectAll("circle.pt" + i)
+
+           .attr("fill", "#69b3a2")
+            .attr("r", 10)
+              nums=0;
+            for(j=0;j<=i; j++){
+                
+
+                nums=nums+parseInt(data[j].value);
+            } 
+
+                console.log(data[i].value);
+                console.log(nums);
+
+                
+                drawelements();
+                
+    })
+    .on("mouseout", function(d, i) {
+        d3.selectAll("circle.pt" + i)
+          .attr("fill", "null")
+          .attr("r", 5)
+    })
+
+             
+        svg1.append("text")
+            .attr("class", "x label")
+            .attr("text-anchor", "middle")
+            .style("font-size", "12px")
+            .attr("x", width)
+            .attr("y", height + 20)
+            .text("Date");
+
+        svg1.append("text")
+            .attr("class", "y label")
+            .attr("text-anchor", "end")
+            .style("font-size", "12px")
+            .attr("y", -30)
+            .attr("x", -60)
+            .attr("transform", "rotate(-90)")
+            .text("Deaths");
+
+        svg1.append("text")
+            .style("font-size", "15px")
+            .attr("x", width/2)
+            .attr("y", 285)
+            .text("Bar charts for Age Group and Gender");
+        svg1.append("text")
+            .style("font-size", "15px")
+            .attr("x", width/2)
+            .attr("y", 10)
+            .text("Line Chart showing Deaths by Date");           
+    })    
+</script>
+</html>
