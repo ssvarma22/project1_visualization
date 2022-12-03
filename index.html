@@ -9,17 +9,12 @@
     </script> 
     
 	<style>
-		rect {
-			fill:  steelblue;
-		}
+		
 		body {
 			font-family:  sans-serif;
 			font-size: 15px;
 		}
-		circle {
-			fill: #32a4a8;
-		}
-	</style>
+			</style>
 </head>
 
 <body>
@@ -567,7 +562,7 @@ var y = d3.scaleLinear()
     .domain([0, 250])         
     .range([300, 0]);         
 
-// Draw the axis
+
 svg
   .append("g")
   .attr("transform", "translate(45,100)")     
@@ -581,7 +576,7 @@ svg
     .attr("y",440)
     .text("Age Group");
 
-// Y axis label:
+
 svg.append("text")
     .attr("text-anchor", "end")
     .attr("transform", "rotate(-90)")
@@ -683,7 +678,7 @@ gendernum1.attr("x", function(d,i){ return 60+i*(bwidth+2);})
     .domain([0, 250])         
     .range([300, 0]);         
 
-// Draw the axis
+
 svg
   .append("g")
   .attr("transform", "translate(45,100)")      
@@ -695,7 +690,7 @@ svg
     .attr("y",440)
     .text("Gender");
 
-// Y axis label:
+
 svg.append("text")
     .attr("text-anchor", "end")
     .attr("transform", "rotate(-90)")
